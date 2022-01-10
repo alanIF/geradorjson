@@ -39,7 +39,7 @@
                             <td>{{$b->nome}}</td>
 
                             <td>{{$b->descricao}}</td>
-                            <td><a class="btn btn-info "  href="{{$b->arquivo_csv}}" target="_blak"><i class="fa fa-file"></i></a></td>
+                            <td><a class="btn btn-info "  href="{{$b->arquivo_csv}}" target="_blank"><i class="fa fa-file"></i></a></td>
 
 
                             <td><a class="btn btn-warning " href="base/{{$b->id}}/edit"><i class="fa fa-database" ></i></a> </td>

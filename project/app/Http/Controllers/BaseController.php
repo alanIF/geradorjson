@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Base;
 use Illuminate\Support\Facades\Auth;
 use Redirect;
-
+use Illuminate\Support\Facades\Storage;
 class BaseController extends Controller
 {
   
@@ -41,7 +41,7 @@ class BaseController extends Controller
     
 
        
-        return Redirect::to('/base/new')->with('status', 'base criada com sucesso');;
+        return Redirect::to('/base')->with('status', 'base criada com sucesso');;
     }
     public function update($id ,Request $request){
         $base= Base::findOrFail($id);
@@ -62,6 +62,8 @@ class BaseController extends Controller
     }
     public function delete($id){
         $base= Base::findOrFail($id);
+        Storage::delete(''.$base->arquivo_csv);
+
         $base->delete();
 
         return Redirect::to('/base')->with('status', 'base excluída com sucesso');;
