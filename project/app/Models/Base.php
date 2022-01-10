@@ -9,5 +9,5 @@ class Base extends Model
 {
     use HasFactory;
     protected $table= "base";
-    protected $fillable= ['descricao','valor','data_receita', 'user_id'];
+    protected $fillable= ['descricao','nome', 'arquivo_csv' ,'user_id'];
 }

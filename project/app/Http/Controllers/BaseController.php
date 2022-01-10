@@ -14,29 +14,34 @@ class BaseController extends Controller
     public function index(){
         $user = Auth::id();
 
-        $sql = 'Select * from base b where v.user_id='.$user.'';
+        $sql = 'Select * from base b where b.user_id='.$user.'';
         $bases = \DB::select($sql);
         
         return view('base.index', ['bases' => $bases]);
     }
     // form de cadastrar
     public function new(){
-        return view('bases.form');
+        return view('base.form');
     }
     public function add(Request $request){
         $base = new Base();
         $user = Auth::id();
+        
         $base->nome=$request->nome;
+       
+        $fileName = time().'_'.$request->file->getClientOriginalName();
+        $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
 
+ 
         $base->descricao=$request->descricao;
-        $base->arquivo_csv =$request->arquivo_csv;
-        $base->arquivo_json=$request->arquivo_json;
+        $base->arquivo_csv ='/storage/app/public/' . $filePath;
         $base->user_id= $user;
         $base->save();
-        
+       
+    
 
        
-        return Redirect::to('/base');
+        return Redirect::to('/base/new')->with('status', 'base criada com sucesso');;
     }
     public function update($id ,Request $request){
         $base= Base::findOrFail($id);
@@ -44,14 +49,12 @@ class BaseController extends Controller
 
         $base->nome=$request->nome;
         $base->descricao=$request->descricao;
-        $base->arquivo_csv =$request->arquivo_csv;
-        $base->arquivo_json=$request->arquivo_json;
         $base->user_id= $user;
         $base->save();
 
         
 
-        return Redirect::to('/base');
+        return Redirect::to('/base')->with('status', 'base atualizada com sucesso');;
     }
     public function edit($id){
         $base= Base::findOrFail($id);
@@ -61,7 +64,7 @@ class BaseController extends Controller
         $base= Base::findOrFail($id);
         $base->delete();
 
-        return Redirect::to('/base');
+        return Redirect::to('/base')->with('status', 'base excluída com sucesso');;
     }
 }
 

@@ -18,7 +18,8 @@ class CreateBaseTable extends Migration
             $table->text("nome");
             $table->text("descricao");
             $table->text("arquivo_csv");
-            $table->text("arquivo_json");
+             
+           
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
