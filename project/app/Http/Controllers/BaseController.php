@@ -68,5 +68,11 @@ class BaseController extends Controller
 
         return Redirect::to('/base')->with('status', 'base excluída com sucesso');;
     }
+
+    public function gerar($id ,Request $request){
+        $base= Base::findOrFail($id);
+        $user = Auth::id();
+        
+    }
 }
 
