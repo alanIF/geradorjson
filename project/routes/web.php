@@ -30,7 +30,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/base/update/{id}',  [App\Http\Controllers\BaseController::class, 'update']);
     Route::get('/base/{id}/edit',  [App\Http\Controllers\BaseController::class, 'edit']);
     Route::delete('/base/delete/{id}',  [App\Http\Controllers\BaseController::class, 'delete']);
-    Route::get('/base/{id}/gerar',  [App\Http\Controllers\BaseController::class, 'gerar']);
+    Route::get('/base/{id}/gerar_json',  [App\Http\Controllers\BaseController::class, 'gerar_json']);
+    Route::get('/base/{id}/gerar_csv',  [App\Http\Controllers\BaseController::class, 'gerar_csv']);
 
     
 });

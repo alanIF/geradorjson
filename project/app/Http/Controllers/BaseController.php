@@ -62,17 +62,52 @@ class BaseController extends Controller
     }
     public function delete($id){
         $base= Base::findOrFail($id);
-        Storage::delete(''.$base->arquivo_csv);
-
+        unlink('../'.$base->arquivo_csv.'');
+            
         $base->delete();
 
         return Redirect::to('/base')->with('status', 'base excluída com sucesso');;
     }
 
-    public function gerar($id ,Request $request){
+    public function gerar_json($id ,Request $request){
         $base= Base::findOrFail($id);
         $user = Auth::id();
-        
+        $delimitador = ';';
+        $cerca = '"';
+
+        // Abrir arquivo para leitura
+        $f = fopen('../'.$base->arquivo_csv.'', 'r');
+        $dados = array();
+        $i=0;
+        if ($f) { 
+
+            // Ler cabecalho do arquivo
+            $cabecalho = fgetcsv($f, 0, $delimitador, $cerca);
+
+            // Enquanto nao terminar o arquivo
+            while (!feof($f)) { 
+
+                // Ler uma linha do arquivo
+                $linha = fgetcsv($f, 0, $delimitador, $cerca);
+                if (!$linha) {
+                    continue;
+                }
+
+                // Montar registro com valores indexados pelo cabecalho
+                $registro = array_combine($cabecalho, $linha);
+
+                // Obtendo o nome
+                if($i!=0){
+                    array_push($dados,$registro);
+
+                }
+                $i++;
+            }
+            fclose($f);
+            }
+            $date['date']=$dados;
+            return response()->json($date);
+
     }
 }
 
