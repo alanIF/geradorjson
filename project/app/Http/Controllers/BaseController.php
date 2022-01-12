@@ -109,5 +109,43 @@ class BaseController extends Controller
             return response()->json($date);
 
     }
-}
+    public function gerar_csv($id ,Request $request){
+        $base= Base::findOrFail($id);
+        $user = Auth::id();
+        $delimitador = ';';
+        $cerca = '"';
+
+        // Abrir arquivo para leitura
+        $f = fopen('../'.$base->arquivo_csv.'', 'r');
+        $dados = array();
+        $i=0;
+        if ($f) { 
+
+            // Ler cabecalho do arquivo
+            $cabecalho = fgetcsv($f, 0, $delimitador, $cerca);
+
+            // Enquanto nao terminar o arquivo
+            while (!feof($f)) { 
+
+                // Ler uma linha do arquivo
+                $linha = fgetcsv($f, 0, $delimitador, $cerca);
+                if (!$linha) {
+                    continue;
+                }
+
+                // Montar registro com valores indexados pelo cabecalho
+                $registro = array_combine($cabecalho, $linha);
+
+                // Obtendo o nome
+                if($i!=0){
+                    array_push($dados,$registro);
+
+                }
+                $i++;
+            }
+            fclose($f);
+            }
+            return $dados;
+
+    }}
 
