@@ -147,5 +147,73 @@ class BaseController extends Controller
             }
             return $dados;
 
-    }}
+    }
+
+    public function gerar_sql($id ,Request $request){
+        $base= Base::findOrFail($id);
+        $user = Auth::id();
+        $delimitador = ';';
+        $cerca = '"';
+
+        // Abrir arquivo para leitura
+        $f = fopen('../'.$base->arquivo_csv.'', 'r');
+        $dados = "create database ".$base->nome." ; <br/> use ".$base->nome."; <br/>";
+        
+        $i=0;
+        $create= false;
+        if ($f) { 
+
+            // Ler cabecalho do arquivo
+            $cabecalho = fgetcsv($f, 0, $delimitador, $cerca);
+            $dados =$dados." create table ".$base->nome." (";
+            while (!$create){
+                for($k=0;$k<count($cabecalho);$k++){
+                    if($k==count($cabecalho)-1){
+                        $dados=$dados." $cabecalho[$k]"." text );  <br/>";
+
+                    }else{
+                        $dados=$dados." $cabecalho[$k]"." text , ";
+
+                    }
+                }
+                $create=true;
+
+            }
+
+            // Enquanto nao terminar o arquivo
+            while (!feof($f)) { 
+
+                // Ler uma linha do arquivo
+                $linha = fgetcsv($f, 0, $delimitador, $cerca);
+                if (!$linha) {
+                    continue;
+                }
+
+                // Montar registro com valores indexados pelo cabecalho
+                $registro = array_combine($cabecalho, $linha);
+                // Obtendo o nome
+                if($i!=0){
+                    $dados= $dados." insert into ".$base->nome." values (";  
+
+                    for($k=0;$k<count($cabecalho);$k++){
+                        if($k==count($cabecalho)-1){
+                            $dados=$dados.'"'.$linha[$k].'");  <br/>';
+    
+                        }else{
+                            $dados=$dados.'"'. $linha[$k].'" ,' ;
+    
+                        }
+                    }
+                }
+                $i++;
+            }
+                fclose($f);
+            }
+            return $dados;
+
+    }
+
+
+
+}
 

@@ -22,10 +22,9 @@
 
                             <th scope="col">descrição </th>
 
-                            <th scope="col">arquivo csv </th>
                             
 
-                            <th colspan='3'>Ações</th>
+                            <th colspan='5'>Ações</th>
                             
 
 
@@ -39,10 +38,11 @@
                             <td>{{$b->nome}}</td>
 
                             <td>{{$b->descricao}}</td>
-                            <td><a class="btn btn-info " href="base/{{$b->id}}/gerar_csv"><i class="fa fa-file" ></i></a> </td>
+                            <td><a class="btn btn-info " href="base/{{$b->id}}/gerar_csv"><i class="fa fa-file" alt="arquivo csv"></i></a> </td>
 
 
-                            <td><a class="btn btn-warning " href="base/{{$b->id}}/gerar_json"><i class="fa fa-database" ></i></a> </td>
+                            <td><a class="btn btn-warning " href="base/{{$b->id}}/gerar_json"><i class="fa fa-server" alt="Gerar json" ></i></a> </td>
+                            <td><a class="btn btn-info " href="base/{{$b->id}}/gerar_sql"><i class="fa fa-database" alt="Gerar sql" ></i></a> </td>
 
                             <td><a class="btn btn-warning " href="base/{{$b->id}}/edit"><i class="fa fa-edit" ></i></a> </td>
                             <td>   <form action="base/delete/{{$b->id}}" method="post"> @csrf @method('delete')<button class="btn btn-danger"><i class="fa fa-trash" ></i></button></form></td>

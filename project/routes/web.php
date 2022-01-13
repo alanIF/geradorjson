@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/base/delete/{id}',  [App\Http\Controllers\BaseController::class, 'delete']);
     Route::get('/base/{id}/gerar_json',  [App\Http\Controllers\BaseController::class, 'gerar_json']);
     Route::get('/base/{id}/gerar_csv',  [App\Http\Controllers\BaseController::class, 'gerar_csv']);
+    Route::get('/base/{id}/gerar_sql',  [App\Http\Controllers\BaseController::class, 'gerar_sql']);
 
     
 });
