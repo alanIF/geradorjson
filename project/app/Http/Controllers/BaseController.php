@@ -137,15 +137,14 @@ class BaseController extends Controller
                 $registro = array_combine($cabecalho, $linha);
 
                 // Obtendo o nome
-                if($i!=0){
+                
                     array_push($dados,$registro);
 
                 }
-                $i++;
             }
             fclose($f);
-            }
-            return $dados;
+          
+            return view('base.csv', ['dados' => $dados]);
 
     }
 
