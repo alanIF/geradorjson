@@ -106,7 +106,10 @@ class BaseController extends Controller
             fclose($f);
             }
             $date['date']=$dados;
-            return response()->json($date);
+            $dados=  response()->json($date);
+            $json_string = json_encode($dados, JSON_PRETTY_PRINT);
+            return view('base.json', ['dados' => $json_string]);
+
 
     }
     public function gerar_csv($id ,Request $request){
