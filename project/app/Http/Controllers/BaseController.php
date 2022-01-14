@@ -208,7 +208,7 @@ class BaseController extends Controller
             }
                 fclose($f);
             }
-            return $dados;
+            return view('base.sql', ['dados' => $dados]);
 
     }
 
