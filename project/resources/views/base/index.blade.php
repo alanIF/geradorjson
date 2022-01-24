@@ -13,6 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
 
                     <table class="table table-hover ">
                         <thead>
@@ -30,7 +31,7 @@
 
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="myTable">
                         @foreach($bases as $b)
                         <tr>
 
@@ -60,4 +61,14 @@
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 @endsection
